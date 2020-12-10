@@ -9,9 +9,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         
-      - name: os
-        run: make os
-        
-      - name: image
-        run: make image
+      - name: aarch64
+        run: ./mk-gen-aarch64.sh
     
