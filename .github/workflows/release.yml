@@ -1,0 +1,72 @@
+name: Upload Release Asset
+
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+    - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: make aarch64
+        run: ./mk-gen-aarch64.sh
+		
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+		  
+      - name: Upload Asset 1
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: images/v2-hdmiusb-generic-aarch64-nanopi-r2s-rk3328.img.bz2
+          asset_name: v2-hdmiusb-generic-aarch64-nanopi-r2s-rk3328.img.bz2
+          asset_content_type: application/x-bzip2
+
+      - name: Upload Asset 2
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: images/v2-hdmiusb-generic-aarch64-rock64.img.bz2
+          asset_name: v2-hdmiusb-generic-aarch64-rock64.img.bz2
+          asset_content_type: application/x-bzip2
+
+      - name: Upload Asset 3
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: images/v2-hdmiusb-generic-aarch64-roc-cc-rk3328.img.bz2
+          asset_name: v2-hdmiusb-generic-aarch64-roc-cc-rk3328.img.bz2
+          asset_content_type: application/x-bzip2
+
+      - name: Upload Asset 4
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: images/v2-hdmiusb-generic-aarch64-rock-pi-e-rk3328.img.bz2
+          asset_name: v2-hdmiusb-generic-aarch64-rock-pi-e-rk3328.img.bz2
+          asset_content_type: application/x-bzip2	  
