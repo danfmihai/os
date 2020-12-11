@@ -1,23 +1,24 @@
-name: Upload Release Asset
+name: create release with assets
 
 on:
   push:
-    # Sequence of patterns matched against refs/tags
     tags:
     - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
+env:
+  REPO_URL: http://il.us.mirror.archlinuxarm.org
+  BUILDER_URL: https://github.com/Yura80/pi-builder
+  PIKVM_REPO_URL: https://raw.githubusercontent.com/Yura80/pikvm-repo/main
+  PIKVM_REPO_KEY: 39CCCE14BFBB5D69
+  TIMEZONE: America/New_York
+  CARD_DATA_FS_TYPE: ext4
+
 jobs:
-  build:
+  create-release:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v2
-
-      - name: check environment
-        run: df -h && docker ps && docker images
-
-      - name: make os BOARD=generic ARCH=aarch64
-        run: make os BOARD=generic ARCH=aarch64
 
       - name: create release
         id: create_release
@@ -29,31 +30,62 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+    outputs:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
 
-      - name: make image BOARD=generic ARCH=aarch64 UBOOT=nanopi-r2s-rk3328
-        run: rm -rf images && make image BOARD=generic ARCH=aarch64 UBOOT=nanopi-r2s-rk3328
+  build:
+    runs-on: ubuntu-latest
+    needs: create-release
+    strategy:
+      matrix:
+        arch: [arm, aarch64]
+        include:
+          - arch: arm
+            board: generic
+            uboot: nanopi-neo
+            platform: v2-hdmiusb
+          - arch: arm
+            board: generic
+            uboot: orangepi-zero
+            platform: v2-hdmiusb
+          - arch: arm
+            board: generic
+            uboot: libretech-all-h3-cc-h3
+            platform: v2-hdmiusb
+          - arch: aarch64
+            board: generic
+            uboot: rock64
+            platform: v2-hdmiusb
+          - arch: aarch64
+            board: generic
+            uboot: nanopi-r2s-rk3328
+            platform: v2-hdmiusb
+    name: build ${{ matrix.platform }}-${{ matrix.board }}-${{ matrix.arch }}-${{ matrix.uboot }}
+    env:
+      BOARD: ${{ matrix.board }}
+      ARCH: ${{ matrix.arch }}
+      UBOOT: ${{ matrix.uboot }}
+      PLATFORM: ${{ matrix.platform }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
 
-      - name: upload asset 1
-        id: upload-release-asset-1
+      - name: show environment
+        run: env && df -h
+
+      - name: make os
+        run: make os
+
+      - name: make image
+        run: make image
+
+      - name: upload image
+        id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: images/v2-hdmiusb-generic-aarch64-nanopi-r2s-rk3328.img.bz2
-          asset_name: v2-hdmiusb-generic-aarch64-nanopi-r2s-rk3328.img.bz2
-          asset_content_type: application/x-bzip2
-
-      - name: make image BOARD=generic ARCH=aarch64 UBOOT=rock64
-        run: rm -rf images && make image BOARD=generic ARCH=aarch64 UBOOT=rock64
-
-      - name: upload asset 2
-        id: upload-release-asset-2
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: images/v2-hdmiusb-generic-aarch64-rock64.img.bz2
-          asset_name: v2-hdmiusb-generic-aarch64-rock64.img.bz2
+          upload_url: ${{ needs.create-release.outputs.upload_url }} 
+          asset_path: images/${{ matrix.platform }}-${{ matrix.board }}-${{ matrix.arch }}-${{ matrix.uboot }}.img.bz2
+          asset_name: ${{ matrix.platform }}-${{ matrix.board }}-${{ matrix.arch }}-${{ matrix.uboot }}.img.bz2
           asset_content_type: application/x-bzip2
