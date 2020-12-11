@@ -7,9 +7,9 @@ on:
 
 env:
   REPO_URL: http://il.us.mirror.archlinuxarm.org
-  BUILDER_URL: https://github.com/Yura80/pi-builder
-  PIKVM_REPO_URL: https://raw.githubusercontent.com/Yura80/pikvm-repo/main
-  PIKVM_REPO_KEY: 39CCCE14BFBB5D69
+  BUILDER_URL: https://github.com/${{ github.repository_owner }}/pi-builder
+  PIKVM_REPO_URL: ${{ secrets.PIKVM_REPO_URL }}
+  PIKVM_REPO_KEY: ${{ secrets.PIKVM_REPO_KEY }}
   TIMEZONE: America/New_York
   CARD_DATA_FS_TYPE: ext4
 
@@ -28,6 +28,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
+          body: ''
           draft: false
           prerelease: false
     outputs:
@@ -42,24 +43,25 @@ jobs:
         include:
           - arch: arm
             board: generic
-            uboot: nanopi-neo
             platform: v2-hdmiusb
-          - arch: arm
-            board: generic
-            uboot: orangepi-zero
-            platform: v2-hdmiusb
-          - arch: arm
-            board: generic
-            uboot: libretech-all-h3-cc-h3
-            platform: v2-hdmiusb
+            uboot: [
+              libretech-all-h3-cc-h2-plus,
+              libretech-all-h3-cc-h3,
+              orangepi-one,
+              orangepi-zero,
+              orangepi-2,
+              nanopi-neo,
+              nanopi-m1,
+              nanopi-m1-plus
+            ]
           - arch: aarch64
             board: generic
-            uboot: rock64
             platform: v2-hdmiusb
-          - arch: aarch64
-            board: generic
-            uboot: nanopi-r2s-rk3328
-            platform: v2-hdmiusb
+            uboot: [
+              rock64-rk3328,
+              nanopi-r2s-rk3328,
+              roc-cc-rk3328
+            ]
     name: build ${{ matrix.platform }}-${{ matrix.board }}-${{ matrix.arch }}-${{ matrix.uboot }}
     env:
       BOARD: ${{ matrix.board }}
