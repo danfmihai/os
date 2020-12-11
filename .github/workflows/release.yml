@@ -28,7 +28,7 @@ jobs:
           prerelease: false
 
       - name: Upload Asset 1
-        id: upload-release-asset 
+        id: upload-release-asset-1
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -39,7 +39,7 @@ jobs:
           asset_content_type: application/x-bzip2
 
       - name: Upload Asset 2
-        id: upload-release-asset 
+        id: upload-release-asset-2
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -50,7 +50,7 @@ jobs:
           asset_content_type: application/x-bzip2
 
       - name: Upload Asset 3
-        id: upload-release-asset 
+        id: upload-release-asset-3
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -61,7 +61,7 @@ jobs:
           asset_content_type: application/x-bzip2
 
       - name: Upload Asset 4
-        id: upload-release-asset 
+        id: upload-release-asset-4
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
