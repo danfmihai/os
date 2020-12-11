@@ -39,29 +39,62 @@ jobs:
     needs: create-release
     strategy:
       matrix:
-        arch: [arm, aarch64]
         include:
-          - arch: arm
+          - uboot: libretech-all-h3-cc-h2-plus
+            arch: arm
             board: generic
             platform: v2-hdmiusb
-            uboot: [
-              libretech-all-h3-cc-h2-plus,
-              libretech-all-h3-cc-h3,
-              orangepi-one,
-              orangepi-zero,
-              orangepi-2,
-              nanopi-neo,
-              nanopi-m1,
-              nanopi-m1-plus
-            ]
-          - arch: aarch64
+            
+          - uboot: libretech-all-h3-cc-h3
+            arch: arm
+            board: generic
+            platform: v2-hdmiusb 
+            
+          - uboot: orangepi-one
+            arch: arm
             board: generic
             platform: v2-hdmiusb
-            uboot: [
-              rock64-rk3328,
-              nanopi-r2s-rk3328,
-              roc-cc-rk3328
-            ]
+            
+          - uboot: orangepi-zero
+            arch: arm
+            board: generic
+            platform: v2-hdmiusb
+            
+          - uboot: orangepi-2
+            arch: arm
+            board: generic
+            platform: v2-hdmiusb
+            
+          - uboot: nanopi-neo
+            arch: arm
+            board: generic
+            platform: v2-hdmiusb
+            
+          - uboot: nanopi-m1
+            arch: arm
+            board: generic
+            platform: v2-hdmiusb
+            
+          - uboot: nanopi-m1-plus
+            arch: arm
+            board: generic
+            platform: v2-hdmiusb
+            
+          - uboot: rock64-rk3328
+            arch: aarch64
+            board: generic
+            platform: v2-hdmiusb
+
+          - uboot: nanopi-r2s-rk3328
+            arch: aarch64
+            board: generic
+            platform: v2-hdmiusb
+
+          - uboot: roc-cc-rk3328
+            arch: aarch64
+            board: generic
+            platform: v2-hdmiusb
+           
     name: build ${{ matrix.platform }}-${{ matrix.board }}-${{ matrix.arch }}-${{ matrix.uboot }}
     env:
       BOARD: ${{ matrix.board }}
