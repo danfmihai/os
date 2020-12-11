@@ -13,6 +13,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         
+      - name: check env
+        run: df -h && docker ps && docker images
+        
       - name: make aarch64
         run: ./mk-gen-aarch64.sh
         
