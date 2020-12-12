@@ -93,7 +93,23 @@ jobs:
           - uboot: roc-cc-rk3328
             arch: aarch64
             board: generic
-            platform: v2-hdmiusb           
+            platform: v2-hdmiusb
+
+          - uboot: nanopi-neo2
+            arch: aarch64
+            board: generic
+            platform: v2-hdmiusb
+
+          - uboot: orangepi-zero-plus
+            arch: aarch64
+            board: generic
+            platform: v2-hdmiusb
+
+          - uboot: libretech-all-h3-cc-h5
+            arch: aarch64
+            board: generic
+            platform: v2-hdmiusb
+
     name: build ${{ matrix.platform }}-${{ matrix.board }}-${{ matrix.arch }}-${{ matrix.uboot }}
     env:
       BOARD: ${{ matrix.board }}
