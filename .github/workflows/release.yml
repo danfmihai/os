@@ -27,9 +27,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          release_name: ${{ github.ref }}
           body: ''
-          draft: false
+          draft: true
           prerelease: false
     outputs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
@@ -44,42 +44,42 @@ jobs:
             arch: arm
             board: generic
             platform: v2-hdmiusb
-            
+
           - uboot: libretech-all-h3-cc-h3
             arch: arm
             board: generic
             platform: v2-hdmiusb 
-            
+
           - uboot: orangepi-one
             arch: arm
             board: generic
             platform: v2-hdmiusb
-            
+
           - uboot: orangepi-zero
             arch: arm
             board: generic
             platform: v2-hdmiusb
-            
+
           - uboot: orangepi-2
             arch: arm
             board: generic
             platform: v2-hdmiusb
-            
+
           - uboot: nanopi-neo
             arch: arm
             board: generic
             platform: v2-hdmiusb
-            
+
           - uboot: nanopi-m1
             arch: arm
             board: generic
             platform: v2-hdmiusb
-            
+
           - uboot: nanopi-m1-plus
             arch: arm
             board: generic
             platform: v2-hdmiusb
-            
+
           - uboot: rock64-rk3328
             arch: aarch64
             board: generic
