@@ -8,13 +8,13 @@ STAGES ?= __init__ os pikvm-repo watchdog ro no-audit pikvm pikvm-image __cleanu
 
 HOSTNAME ?= pikvm
 LOCALE ?= en_US
-TIMEZONE ?= Europe/Moscow
+TIMEZONE ?= America/New_York
 #REPO_URL ?= http://mirror.yandex.ru/archlinux-arm
 REPO_URL ?= http://de3.mirror.archlinuxarm.org
 BUILD_OPTS ?=
 BUILDER_URL ?= https://github.com/mdevaev/pi-builder
 PIKVM_REPO_URL ?= https://pikvm.org/repos
-PIKVM_REPO_KEY ?= 912C773ABBD1B584
+PIKVM_REPO_KEY ?= 2D55C376FD3F40D4
 
 WIFI_ESSID ?=
 WIFI_PASSWD ?=
