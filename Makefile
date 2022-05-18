@@ -14,7 +14,7 @@ REPO_URL ?= http://de3.mirror.archlinuxarm.org
 BUILD_OPTS ?=
 BUILDER_URL ?= https://github.com/mdevaev/pi-builder
 PIKVM_REPO_URL ?= https://pikvm.org/repos
-PIKVM_REPO_KEY ?= 2D55C376FD3F40D4
+PIKVM_REPO_KEY ?= 63B63796B3F5E538
 
 WIFI_ESSID ?=
 WIFI_PASSWD ?=
