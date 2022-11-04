@@ -10,9 +10,9 @@ HOSTNAME ?= pikvm
 LOCALE ?= en_US
 TIMEZONE ?= America/New_York
 #REPO_URL ?= http://mirror.yandex.ru/archlinux-arm
-REPO_URL ?= http://de3.mirror.archlinuxarm.org
+REPO_URL ?= http://fl.us.mirror.archlinuxarm.org
 BUILD_OPTS ?=
-BUILDER_URL ?= https://github.com/mdevaev/pi-builder
+BUILDER_URL ?= https://github.com/danfmihai/pi-builder
 PIKVM_REPO_URL ?= https://pikvm.org/repos
 PIKVM_REPO_KEY ?= C8B8B8BF6DA1B52A
 
@@ -132,3 +132,7 @@ image:
 upload:
 	rsync -rl --progress --delete images root@pikvm.org:/var/www/images2
 	ssh root@pikvm.org "bash -c 'mv /var/www/images2/* /var/www/images/; rmdir /var/www/images2'"
+
+version:
+	USTREAMER_VERSION=$(call fetch_version,ustreamer)
+	
